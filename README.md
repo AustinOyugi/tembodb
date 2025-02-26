@@ -7,42 +7,6 @@
 
 Below is an overview of the project structure along with an explanation of the subdirectories:
 
-```
-tembo_db/
-├── Cargo.toml                   # Rust project metadata and dependency definitions
-├── src/                         # Rust source code for the core database engine
-│   ├── main.rs                  # Application entry point; initializes and starts Tembo DB
-│   ├── lib.rs                   # Core library exports and module definitions
-│   ├── config.rs                # Configuration settings and runtime parameters
-│   ├── parser/                 # SQL Parsing module: lexer, parser, and AST definitions
-│   ├── planner/                # Query planning and optimization components
-│   ├── executor/               # Query execution engine: processing SQL commands
-│   ├── storage/                # Data persistence: tables, indexes, and Write-Ahead Logging (WAL)
-│   ├── buffer/                 # Buffer management and caching system for efficient I/O
-│   ├── transaction/            # Transaction and concurrency control (e.g., MVCC, locking)
-│   ├── access_control/         # Authentication and security modules to protect data
-│   ├── network/                # Networking: implements PostgreSQL wire protocol and connection handling
-│   └── cli/                    # Command-line interface (REPL) for user interaction
-│
-├── go_modules/                  # Golang modules for auxiliary services and integrations
-│   ├── go.mod                   # Go module file for dependency management in Go modules
-│   ├── pkg/                     # Reusable Go packages
-│   │   ├── protocol/            # Protocol-specific functionality (e.g., parts of the wire protocol)
-│   │   │   └── protocol.go      
-│   │   ├── connection/          # Client connection management routines
-│   │   │   └── connection.go    
-│   │   └── utils/               # Shared utility functions for various Go modules
-│   │       └── helper.go
-│   └── cmd/                     # Go command-line applications or microservices
-│       ├── go_server/           # Example Go-based server component for handling specific tasks
-│       │   └── main.go          
-│       └── another_tool/        # Additional Go tools or utilities integrated into Tembo DB
-│           └── main.go
-│
-└── tests/                       # Tests for both Rust and Go components
-    ├── rust_tests/              # Unit and integration tests for Rust code
-    └── go_tests/                # Tests for Go modules (using Go’s testing framework)
-```
 
 ## Subdirectory Explanations
 
