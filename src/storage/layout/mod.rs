@@ -1,1 +1,1 @@
-pub  mod tembo_page;
+pub mod tembo_page;

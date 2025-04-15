@@ -1,16 +1,9 @@
 use std::fs;
-use crate::storage::layout::tembo_page::TemboPage;
 
-pub  fn initialize_storage() -> std::io::Result<()> {
-
+pub fn initialize_storage() -> std::io::Result<()> {
     /*
-            Load the data storage
-     */
-
-
-
-
-
+           Load the data storage
+    */
 
     // Check if the storage is ready
     fs::create_dir_all("tembodata/storage")?;
