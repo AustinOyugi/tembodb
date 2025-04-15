@@ -1,17 +1,17 @@
 ```markdown
 # Tembo DB
 
-**Tembo DB** is a PostgreSQL-inspired database engine built with a combination of Rust and Golang modules. Named after the Swahili word for "elephant," Tembo DB represents
-strength, reliability, speed, and efficiency.
+Tembo DB is a PostgreSQL-inspired database engine built with a combination of Rust and Golang modules.
+Named after the Swahili word for "elephant," Tembo DB represents strength, reliability, speed, and efficiency.
 
 ## Project Structure
-
 Below is an overview of the project structure along with an explanation of the subdirectories:
 
 ## Subdirectory Explanations
 
 - **Cargo.toml**:  
-  This file defines the Rust project’s metadata and dependencies. It’s essential for building and managing the Rust core of Tembo DB.
+  This file defines the Rust project’s metadata and dependencies.
+  It is essential for building and managing the Rust core of Tembo DB.
 
 - **src/**:  
   Contains all the Rust source code for the core database engine. Each subdirectory inside `src/` focuses on a specific aspect of the database:
