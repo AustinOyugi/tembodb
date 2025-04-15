@@ -1,0 +1,11 @@
+[package]
+name = "tembodb"
+version = "0.0.1-SNAPSHOT"
+edition = "2024"
+authors = ["Austin Oyugi <austinoyugi@gmail.com>"]
+
+[lib]
+crate-type = ["cdylib"]  # This makes sure Rust compiles it as a C-compatible dynamic library
+[dependencies]
+cortex-m = "0.7.7"
+uuid = { version = "1.15.1", features = ["v4"] }
