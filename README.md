@@ -5,6 +5,7 @@ Tembo DB is a PostgreSQL-inspired database engine built with a combination of Ru
 Named after the Swahili word for "elephant," Tembo DB represents strength, reliability, speed, and efficiency.
 
 ## Project Structure
+
 Below is an overview of the project structure along with an explanation of the subdirectories:
 
 ## Subdirectory Explanations

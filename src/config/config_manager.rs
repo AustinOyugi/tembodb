@@ -1,9 +1,9 @@
+use log::error;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Lines};
 use std::path::Path;
 use std::{io, process};
-use log::error;
 
 fn read_lines<P>(filename: P) -> io::Result<Lines<BufReader<File>>>
 where

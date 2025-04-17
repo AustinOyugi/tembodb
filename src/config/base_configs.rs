@@ -1,6 +1,6 @@
 use super::config_manager;
-use std::process;
 use log::error;
+use std::process;
 
 #[derive(Debug)]
 pub struct BaseConfig {

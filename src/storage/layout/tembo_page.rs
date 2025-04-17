@@ -16,12 +16,11 @@ pub struct TemboPageHeader {
 
 #[derive(Debug)]
 pub struct LinePointer {
-
     // Distance from the start where the tuple is stored
     offset: u8,
 
     // The size of the tuple
-    length: u32
+    length: u32,
 }
 
 #[derive(Debug)]

@@ -2,10 +2,10 @@ mod config;
 mod environment;
 mod storage;
 
-use log::info;
 use config::base_configs::BaseConfig;
-use environment::initialize_env::validate_env_ready;
 use environment::initialize_env::initialize_environment;
+use environment::initialize_env::validate_env_ready;
+use log::info;
 
 fn main() -> std::io::Result<()> {
     env_logger::init();
