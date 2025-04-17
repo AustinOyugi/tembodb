@@ -3,6 +3,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader, Lines};
 use std::path::Path;
 use std::{io, process};
+use log::error;
 
 fn read_lines<P>(filename: P) -> io::Result<Lines<BufReader<File>>>
 where
@@ -15,7 +16,7 @@ where
 // Loads the config file and returns
 fn get_configs_from_file() -> Lines<BufReader<File>> {
     read_lines("tembodata/tembodb.conf").unwrap_or_else(|error| {
-        eprintln!("Error loading tembo configuration file!! {}", error);
+        error!("Error loading tembo configuration file!! {}", error);
         process::exit(1)
     })
 }

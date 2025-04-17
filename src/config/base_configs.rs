@@ -1,5 +1,6 @@
 use super::config_manager;
 use std::process;
+use log::error;
 
 #[derive(Debug)]
 pub struct BaseConfig {
@@ -18,7 +19,7 @@ impl BaseConfig {
 fn un_wrapper(key: &str, option: Option<&String>) -> String {
     match option {
         None => {
-            eprintln!("Error loading configuration key!! {}", key);
+            error!("Error loading configuration key!! {}", key);
             process::exit(1)
         }
         Some(value) => value.parse().unwrap(),
