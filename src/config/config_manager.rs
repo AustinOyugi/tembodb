@@ -12,6 +12,7 @@ where
     Ok(BufReader::new(file).lines())
 }
 
+// Loads the config file and returns
 fn get_configs_from_file() -> Lines<BufReader<File>> {
     read_lines("tembodata/tembodb.conf").unwrap_or_else(|error| {
         eprintln!("Error loading tembo configuration file!! {}", error);

@@ -15,9 +15,22 @@ pub struct TemboPageHeader {
 }
 
 #[derive(Debug)]
+pub struct LinePointer {
+
+    // Distance from the start where the tuple is stored
+    offset: u8,
+
+    // The size of the tuple
+    length: u32
+}
+
+#[derive(Debug)]
 pub struct TemboPage {
     // Store metadata about the page
     page_header: TemboPageHeader,
+
+    // Line Pointer Array
+    line_pointers: Vec<LinePointer>,
 
     // The actual store of data for the page
     records: Vec<u8>,
@@ -30,7 +43,8 @@ impl TemboPage {
                 id: 0,
                 record_count: 0,
             },
-            records: vec![],
+            line_pointers: vec![],
+            records: Vec::with_capacity(TEMBO_PAGE_SIZE),
         }
     }
 
