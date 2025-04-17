@@ -5,15 +5,17 @@ mod storage;
 use log::info;
 use config::base_configs::BaseConfig;
 use environment::initialize_env::validate_env_ready;
+use environment::initialize_env::initialize_environment;
 
 fn main() -> std::io::Result<()> {
     env_logger::init();
     info!("Stating Tembo DB.");
     let base_configs = BaseConfig::load();
-    if !validate_env_ready(&base_configs) {
-        info!("Environment not ready!! proceeding with initialization");
-    } else {
+    if validate_env_ready(&base_configs) {
         info!("Environment ... ok");
+    } else {
+        info!("Environment not ready!! proceeding with initialization");
+        initialize_environment(&base_configs)?;
     }
     Ok(())
 }
