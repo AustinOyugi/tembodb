@@ -23,6 +23,25 @@ pub struct LinePointer {
     length: u32,
 }
 
+/// A segment represents a collection of grouped pages
+/// Each segment contains the first page, which contains metadata about the segment
+/// The first page that contains metadata about the segment
+///  64000 bits  8000 bytes 8kb
+/// (4 + 4 + 2) = 10 bytes for fields
+/// In a 64 bits arch i.e. 64/8 = 8 bytes per cpu cycle
+/// We pad the first 2 fields 4 + 4 : so that accessing them fills the buffer
+/// The last field which is 2 bytes we pad 6 bytes
+/// Lastly we need to fill in the page till it gets to 8kb
+/// 8192 - 16 = 8176
+#[repr(C)]
+pub struct TemboPageZero {
+    total_pages: u32,
+    next_free_page: u32,
+    page_size: u16,
+    _pad : [u8; 6],
+    reserved: [u8; 8176]
+}
+
 #[derive(Debug)]
 pub struct TemboPage {
     // Store metadata about the page
