@@ -1,28 +1,5 @@
 use std::collections::HashMap;
 
-// 16 kilo bytes
-static TEMBO_PAGE_SIZE: usize = 8192 * 16;
-// 24 bytes
-static TEMBO_HEADER_SIZE: u8 = 24;
-// 4 bytes
-static TEMBO_POINTER_SIZE: u8 = 4;
-
-#[derive(Debug)]
-pub struct TemboPageHeader {
-    id: u32,
-    // Stores the number of records stored in the page
-    record_count: u8,
-}
-
-#[derive(Debug)]
-pub struct LinePointer {
-    // Distance from the start where the tuple is stored
-    offset: u8,
-
-    // The size of the tuple
-    length: u32,
-}
-
 /// A segment represents a collection of grouped pages
 /// Each segment contains the first page, which contains metadata about the segment
 /// The first page that contains metadata about the segment
@@ -41,6 +18,35 @@ pub struct TemboPageZero {
     _pad : [u8; 6],
     reserved: [u8; 8176]
 }
+
+impl TemboPageZero {
+    pub fn new() -> Self {
+        TemboPageZero {
+            total_pages: 1,
+            next_free_page: 1,
+            page_size: 8192,
+            _pad: [0; 6],
+            reserved: [0; 8176],
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct TemboPageHeader {
+    id: u32,
+    // Stores the number of records stored in the page
+    record_count: u8,
+}
+
+#[derive(Debug)]
+pub struct LinePointer {
+    // Distance from the start where the tuple is stored
+    offset: u8,
+
+    // The size of the tuple
+    length: u32,
+}
+
 
 #[derive(Debug)]
 pub struct TemboPage {
@@ -62,7 +68,7 @@ impl TemboPage {
                 record_count: 0,
             },
             line_pointers: vec![],
-            records: Vec::with_capacity(TEMBO_PAGE_SIZE),
+            records: Vec::with_capacity(0),
         }
     }
 

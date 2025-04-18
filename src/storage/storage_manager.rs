@@ -29,5 +29,8 @@ pub fn initialize_storage_dirs(base_config: &BaseConfig) -> io::Result<()> {
 }
 
 pub fn initialize_page_structures(base_config: &BaseConfig) -> io::Result<()>{
+    // get the best segment file names,
+    // if no segment - initialize page zero segment
+    // get the last segment
     Ok(())
 }
