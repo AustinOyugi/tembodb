@@ -12,8 +12,11 @@ use std::collections::HashMap;
 /// 8192 - 16 = 8176
 #[repr(C)]
 pub struct TemboPageZero {
+    // Total number of pages inside the segment
     total_pages: u32,
+    // The next available page in the segment that can be re-used
     next_free_page: u32,
+    // The total size a page should be
     page_size: u16,
     _pad : [u8; 6],
     reserved: [u8; 8176]
@@ -31,56 +34,49 @@ impl TemboPageZero {
     }
 }
 
+/// Total size
+/// 4 + 1 = 5
+/// padding required is 3
+/// Total is 8 bytes
+#[repr(C)]
 #[derive(Debug)]
 pub struct TemboPageHeader {
+    // Unique identifier for the page
     id: u32,
     // Stores the number of records stored in the page
     record_count: u8,
+    _pad : [u8; 3]
 }
 
+/// Total size
+/// 4 + 1 = 5
+/// padding required is 3
+///  Total is 8 bytes
+#[repr(C)]
 #[derive(Debug)]
 pub struct LinePointer {
     // Distance from the start where the tuple is stored
     offset: u8,
-
     // The size of the tuple
     length: u32,
+    _pad : [u8; 3]
 }
 
-
+/// Total size
+/// 8 + Vec<8 bytes>
+/// 8192 - 8 = 8184 after page header
+#[repr(C)]
 #[derive(Debug)]
 pub struct TemboPage {
     // Store metadata about the page
     page_header: TemboPageHeader,
-
     // Line Pointer Array
     line_pointers: Vec<LinePointer>,
-
     // The actual store of data for the page
     records: Vec<u8>,
 }
 
-impl TemboPage {
-    pub fn new() -> Self {
-        Self {
-            page_header: TemboPageHeader {
-                id: 0,
-                record_count: 0,
-            },
-            line_pointers: vec![],
-            records: Vec::with_capacity(0),
-        }
-    }
-
-    // pub  fn get_page_header(&self)  {
-    // }
-}
-
 pub struct BufferPool {
-    cache: HashMap<u32, TemboPage>,
-    dirty_pages: HashMap<u32, TemboPage>,
-}
-
-struct FreeSpaceMap {
-    free_pages: Vec<u32>,
+    cache: Vec<[u8;8192]>,
+    dirty_pages: Vec<u32>,
 }
