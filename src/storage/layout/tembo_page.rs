@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 /// A segment represents a collection of grouped pages
 /// Each segment contains the first page, which contains metadata about the segment
 /// The first page that contains metadata about the segment
@@ -18,8 +16,8 @@ pub struct TemboPageZero {
     next_free_page: u32,
     // The total size a page should be
     page_size: u16,
-    _pad : [u8; 6],
-    reserved: [u8; 8176]
+    _pad: [u8; 6],
+    reserved: [u8; 8176],
 }
 
 impl TemboPageZero {
@@ -45,7 +43,7 @@ pub struct TemboPageHeader {
     id: u32,
     // Stores the number of records stored in the page
     record_count: u8,
-    _pad : [u8; 3]
+    _pad: [u8; 3],
 }
 
 /// Total size
@@ -59,7 +57,7 @@ pub struct LinePointer {
     offset: u8,
     // The size of the tuple
     length: u32,
-    _pad : [u8; 3]
+    _pad: [u8; 3],
 }
 
 /// Total size
@@ -77,6 +75,6 @@ pub struct TemboPage {
 }
 
 pub struct BufferPool {
-    cache: Vec<[u8;8192]>,
+    cache: Vec<[u8; 8192]>,
     dirty_pages: Vec<u32>,
 }
