@@ -34,13 +34,13 @@ pub fn initialize_environment(base_config: &BaseConfig) -> io::Result<()> {
         match init_fn(base_config) {
             Ok(_) => {
                 trace!(
-                    "Function {} successfully initialized",
+                    "Feature {} successfully initialized",
                     get_function_name(init_fn)
                 )
             }
             Err(err) => {
                 error!(
-                    "Function {} failed to be initialized, {}",
+                    "Feature {} failed to be initialized, {}",
                     get_function_name(init_fn),
                     err
                 );
