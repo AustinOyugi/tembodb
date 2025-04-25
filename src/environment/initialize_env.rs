@@ -1,5 +1,6 @@
 use crate::config::base_configs::BaseConfig;
 use crate::storage::storage_manager::{initialize_storage_dirs, is_storage_ready};
+use crate::memory::setup::init_memory_base_context;
 use log::{error, trace};
 use std::{io, process};
 
@@ -7,8 +8,9 @@ fn get_env_ready_func_registry() -> Vec<fn(base_config: &BaseConfig) -> bool> {
     vec![is_storage_ready]
 }
 
+/// Functions called immediately the main function is called
 fn get_env_init_func_registry() -> Vec<fn(base_config: &BaseConfig) -> io::Result<()>> {
-    vec![initialize_storage_dirs]
+    vec![init_memory_base_context]
 }
 
 pub fn validate_env_ready(base_config: &BaseConfig) -> bool {

@@ -37,7 +37,7 @@ pub struct Allocation {
 }
 
 impl TemboMemoryContext{
-
+    
     pub fn new(name: &str, parent: Option<Arc<Mutex<TemboMemoryContext>>> ) -> Arc<Mutex<Self>> {
         let tembo_context = Arc::new(Mutex::new(Self {
             name: name.to_string(),
