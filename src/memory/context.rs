@@ -13,6 +13,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 /// where we decide according to relation where we want to store the objects
 /// in memory
 /// This allows us to efficiently manage the block of allocation.
+#[derive(Debug)]
 pub struct TemboMemoryContext{
     /// The name of the memory context
     name: String,
@@ -28,6 +29,7 @@ pub struct TemboMemoryContext{
     allocations: HashMap<usize, Allocation>
 }
 
+#[derive(Debug)]
 pub struct Allocation {
 
     // The actual memory allocated
