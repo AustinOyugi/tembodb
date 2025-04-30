@@ -1,2 +1,3 @@
-mod context;
-pub  mod setup;
+pub mod context;
+pub mod context_registry;
+pub mod setup;

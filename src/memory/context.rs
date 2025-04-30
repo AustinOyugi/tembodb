@@ -1,6 +1,6 @@
 use std::collections::HashMap;
-use std::sync::{Arc, Mutex};
 use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::{Arc, Mutex};
 
 /// A memory context is an organized memory structure that
 /// 1. Groups a bunch of allocations together logically
@@ -14,7 +14,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 /// in memory
 /// This allows us to efficiently manage the block of allocation.
 #[derive(Debug)]
-pub struct TemboMemoryContext{
+pub struct TemboMemoryContext {
     /// The name of the memory context
     name: String,
 
@@ -26,21 +26,17 @@ pub struct TemboMemoryContext{
     children: Vec<Option<Arc<Mutex<TemboMemoryContext>>>>,
 
     /// All allocations required and their metadata
-    allocations: HashMap<usize, Allocation>
+    allocations: HashMap<usize, Allocation>,
 }
 
 #[derive(Debug)]
 pub struct Allocation {
-
     // The actual memory allocated
-    size: usize
-
-    // Other metadata
+    size: usize, // Other metadata
 }
 
-impl TemboMemoryContext{
-    
-    pub fn new(name: &str, parent: Option<Arc<Mutex<TemboMemoryContext>>> ) -> Arc<Mutex<Self>> {
+impl TemboMemoryContext {
+    pub fn new(name: &str, parent: Option<Arc<Mutex<TemboMemoryContext>>>) -> Arc<Mutex<Self>> {
         let tembo_context = Arc::new(Mutex::new(Self {
             name: name.to_string(),
             parent: parent.clone(),
@@ -50,10 +46,8 @@ impl TemboMemoryContext{
 
         // Checks if the parent exists and if he does then we access the arc
         if let Some(tp) = parent {
-
             // Blocks and waits until the parent can be accessed
-            if let Ok (mut tp_locked) = tp.lock(){
-
+            if let Ok(mut tp_locked) = tp.lock() {
                 // Get the children lists and adds the current context as a child
                 tp_locked.children.push(Option::from(tembo_context.clone()))
             }
