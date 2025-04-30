@@ -7,7 +7,6 @@ use std::fmt::Formatter;
 use std::panic::AssertUnwindSafe;
 use std::sync::{Arc, Mutex, RwLock};
 use std::{fmt, panic};
-use std::ops::Deref;
 
 lazy_static! {
     pub static ref MEMORY_CONTEXT_REGISTRY: RwLock<HashMap<ContextRegistry, Arc<Mutex<TemboMemoryContext>>>> =
