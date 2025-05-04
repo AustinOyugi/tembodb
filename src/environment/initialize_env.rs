@@ -5,20 +5,22 @@ use crate::storage::storage_manager::{initialize_storage_dirs, is_storage_ready}
 use log::{error, trace};
 use std::io::Error;
 use std::{io, process};
+use crate::catalog::tembo_bootstrap::initialize_rel_descriptors;
+use crate::constants::constants::BOOTSTRAP_MODE_ACTIVE;
 
-fn get_env_ready_func_registry() -> Vec<fn(base_config: &BaseConfig) -> bool> {
+fn get_env_ready_func_registry() -> Vec<fn() -> bool> {
     vec![is_storage_ready]
 }
 
-/// Retrieves the bootstrapped functin to be initialized
-fn get_bootstrap_env_func_registry() -> Vec<fn(base_config: &BaseConfig) -> io::Result<()>> {
-    vec![initialize_storage_dirs]
+/// Retrieves the bootstrapped function to be initialized
+fn get_bootstrap_env_func_registry() -> Vec<fn() -> io::Result<()>> {
+    vec![initialize_storage_dirs, initialize_rel_descriptors]
 }
 
-pub fn validate_env_ready(base_config: &BaseConfig) -> bool {
+pub fn validate_env_ready() -> bool {
     // Storage manager to check if ready
     for ready_fn in get_env_ready_func_registry().into_iter() {
-        let is_ready = ready_fn(base_config);
+        let is_ready = ready_fn();
         if is_ready == false {
             return false;
         }
@@ -26,16 +28,16 @@ pub fn validate_env_ready(base_config: &BaseConfig) -> bool {
     true
 }
 
-fn get_function_name<F, Args, Output>(_: F) -> &'static str
+fn get_function_name<F, Output>(_: F) -> &'static str
 where
-    F: Fn(Args) -> Output,
+    F: Fn() -> Output,
 {
     std::any::type_name::<F>()
 }
 
 /// Get the top level memory context
 /// Initialize the boostrap context
-pub fn initialize_environment(base_config: &BaseConfig) -> io::Result<()> {
+pub fn initialize_environment() -> io::Result<()> {
     match get_from_context_registry(ContextRegistry::TopLevelMemoryContext) {
         None => {
             error!("Top level memory context not initialized");
@@ -51,8 +53,13 @@ pub fn initialize_environment(base_config: &BaseConfig) -> io::Result<()> {
             );
 
             switch_to(bootstrapped_context, || {
+                
+                if let Ok(mut boot_active) = BOOTSTRAP_MODE_ACTIVE.write() {
+                    *boot_active = true
+                };
+                
                 for init_fn in get_bootstrap_env_func_registry().into_iter() {
-                    match init_fn(base_config) {
+                    match init_fn() {
                         Ok(_) => {
                             trace!(
                                 "Feature {} successfully initialized",

@@ -2,12 +2,16 @@ mod config;
 mod environment;
 mod memory;
 mod storage;
+mod catalog;
+mod constants;
 
+use std::process;
 use crate::memory::setup::init_memory_base_context;
 use config::base_configs::BaseConfig;
 use environment::initialize_env::initialize_environment;
 use environment::initialize_env::validate_env_ready;
-use log::info;
+use log::{error, info};
+use crate::constants::constants::BASE_CONFIGS;
 
 fn main() -> std::io::Result<()> {
     // Init Db
@@ -28,18 +32,26 @@ fn main() -> std::io::Result<()> {
     // System catalogs (tembo_class)
 
     env_logger::init();
-    info!("Stating Tembo DB.");
+    
+    info!("##########   Stating Tembo DB   ##########");
 
-    let base_configs = BaseConfig::load();
+    match BASE_CONFIGS.set(BaseConfig::load()) {
+        Ok(_) => {
+            info!("Base configurations loaded successfully")
+        }
+        Err(err) => {
+            error!("Error loading configs {}",err);
+            process::exit(1)
+        }
+    }
 
     init_memory_base_context()?;
 
-    if validate_env_ready(&base_configs) {
+    if validate_env_ready() {
         info!("Environment ... ok proceeding with boot");
     } else {
         info!("Environment not ready, entering bootstrap mode");
-
-        initialize_environment(&base_configs)?;
+        initialize_environment()?;
     }
 
     // // Phase 1: Memory and basic infrastructure
