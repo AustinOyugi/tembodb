@@ -6,7 +6,7 @@ use std::io::Error;
 use std::sync::{Arc, RwLock};
 
 pub struct TemboRelCatalog {
-    classes: RwLock<BTreeMap<u32,Arc<TemboRelDef>>>
+    pub classes: RwLock<BTreeMap<u32,Arc<TemboRelDef>>>
 }
 
 impl TemboRelCatalog {
