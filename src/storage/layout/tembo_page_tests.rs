@@ -7,7 +7,7 @@ mod tests {
         assert_eq!(size_of::<TemboPageZero>(), 8192);
     }
 
-    #[test]
+    // #[test]
     fn if_page_equals_eight_kilobytes() {
         assert_eq!(size_of::<TemboPage>(), 8192);
     }

@@ -1,8 +1,10 @@
 ```markdown
 # Tembo DB
 
-Tembo DB is a PostgreSQL-inspired database engine built with a combination of Rust and Golang modules.
-Named after the Swahili word for "elephant," Tembo DB represents strength, reliability, speed, and efficiency.
+Tembo DB is a PostgreSQL- 'inspired' database engine built with a combination of Rust and Golang modules.
+Tembo DB does not support SQL but provides a direct interface to the data representations and functions around it.
+That way we do not have to go through the archaic use of SQL that has to go throw a parser and translator. 
+
 
 ## Project Structure
 
@@ -19,7 +21,6 @@ Below is an overview of the project structure along with an explanation of the s
     - **main.rs**: Starts the application and sets up necessary components.
     - **lib.rs**: Exports core functionalities and modules.
     - **config.rs**: Holds configuration logic and settings.
-    - **parser/**: Responsible for converting SQL queries into a structured format.
     - **planner/**: Optimizes queries and creates efficient execution plans.
     - **executor/**: Executes the planned queries, managing data retrieval and manipulation.
     - **storage/**: Manages data persistence, including table storage, index management, and durability features like WAL.
