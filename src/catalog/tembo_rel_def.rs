@@ -39,10 +39,9 @@ pub struct TemboRelDef {
 }
 
 impl TemboRelDef {
-    pub fn bootstrap(context: Arc<Mutex<TemboMemoryContext>>)  {
-
+    pub fn bootstrap(context: Arc<Mutex<TemboMemoryContext>>) -> Arc<Mutex<TemboRelDef>>  {
         let tembo_class = Arc::new(Mutex::new(TemboRelDef {
-            obj_id: 0,
+            obj_id: 1,
             rel_name: "".to_string(),
             rel_type: RelType::Table,
             rel_attribute: vec![],
@@ -50,5 +49,6 @@ impl TemboRelDef {
             memory_context: context.clone(),
         }));
         
+        tembo_class
     }
 }
