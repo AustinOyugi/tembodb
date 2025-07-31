@@ -42,7 +42,7 @@ pub fn get_from_context_registry(
     match MEMORY_CONTEXT_REGISTRY
         .read()
         .unwrap()
-        .get(&ContextRegistry::TopLevelMemoryContext)
+        .get(&context_name)
     {
         None => {
             trace!("Context {:?} not found", context_name);

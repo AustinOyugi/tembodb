@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
     use crate::storage::layout::tembo_page::{TemboPage, TemboPageZero};
+    use std::mem::size_of;
 
     #[test]
     fn if_page_zero_size_aligns_with_the_rest_of_the_pages() {
