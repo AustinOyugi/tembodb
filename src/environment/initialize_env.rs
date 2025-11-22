@@ -1,4 +1,3 @@
-use crate::config::base_configs::BaseConfig;
 use crate::memory::context::TemboMemoryContext;
 use crate::memory::context_registry::{get_from_context_registry, switch_to, ContextRegistry};
 use crate::storage::storage_manager::{initialize_storage_dirs, is_storage_ready};

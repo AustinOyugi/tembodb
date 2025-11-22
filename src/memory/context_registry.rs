@@ -14,7 +14,7 @@ lazy_static! {
 }
 
 thread_local! {
-    pub static  CURRENT_MEMORY_CONTEXT: RefCell<Arc<Mutex<TemboMemoryContext>>> =
+    pub static CURRENT_MEMORY_CONTEXT: RefCell<Arc<Mutex<TemboMemoryContext>>> =
     RefCell::new(TemboMemoryContext::new(&ContextRegistry::TempEmpty.to_string(),None));
 }
 

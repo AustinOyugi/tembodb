@@ -3,7 +3,7 @@ use crate::catalog::tembo_catalog::TemboRelCatalog;
 use crate::catalog::tembo_rel_def::TemboRelDef;
 use crate::memory::context::TemboMemoryContext;
 use crate::memory::context_registry::CURRENT_MEMORY_CONTEXT;
-use std::{io, process};
+use std::{io};
 use std::io::Error;
 use std::sync::{Arc, Mutex, RwLock};
 use log::error;
