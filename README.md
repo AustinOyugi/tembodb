@@ -1,90 +1,109 @@
-```markdown
-# Tembo DB
+# TemboDB
 
-Tembo DB is a PostgreSQL- 'inspired' database engine built with a combination of Rust and Golang modules.
-Tembo DB does not support SQL but provides a direct interface to the data representations and functions around it.
-That way we do not have to go through the archaic use of SQL that has to go throw a parser and translator. 
+Experimental, PostgreSQL‑inspired database engine written in Rust. TemboDB currently does not support SQL; instead, it exposes low‑level data structures and functionality directly, avoiding the overhead of SQL parsing and translation.
 
+Status: early prototype/WIP.
+
+## Features
+
+- Memory contexts: hierarchical memory management for controlled allocation and context switching (`src/memory`).
+- Storage manager bootstrap: initializes base directories and checks readiness (`src/storage`).
+- Environment bootstrap: orchestrates first‑run initialization (storage + system catalog scaffolding) (`src/environment`, `src/catalog`).
+- Config loading: reads simple `key=value` config from `tembodata/tembodb.conf` (`src/config`).
+- Logging: uses `env_logger` with standard `RUST_LOG` levels.
+
+## Quick Start
+
+Prerequisites:
+
+- Rust toolchain (`rustup`), stable channel (see `rust-toolchain.toml`).
+- A `tembodata/tembodb.conf` file with a valid base path.
+
+Clone and build:
+
+```bash
+git clone <your-repo-url> tembodb
+cd tembodb
+cargo build
+```
+
+Create config (example):
+
+```bash
+mkdir -p tembodata
+cat > tembodata/tembodb.conf <<'EOF'
+file_path=/absolute/path/to/tembodata
+EOF
+```
+
+Run with logs:
+
+```bash
+RUST_LOG=info cargo run
+```
+
+On first run, TemboDB enters bootstrap mode and creates required storage directories under `file_path` (e.g., `/storage`, `/base`, `/global`) and initializes system descriptors.
+
+## Configuration
+
+TemboDB reads `tembodata/tembodb.conf` in simple `key=value` format.
+
+Required keys:
+
+- `file_path`: absolute base directory for storage initialization and data files.
+
+Example:
+
+```conf
+file_path=/Users/you/path/to/tembodata
+```
 
 ## Project Structure
 
-Below is an overview of the project structure along with an explanation of the subdirectories:
+- `Cargo.toml`: crate metadata and dependencies.
+- `src/`
+  - `main.rs`: entry point; initializes logging, configs, memory, and bootstrap.
+  - `config/`: config loader and accessors.
+  - `environment/`: environment readiness checks and bootstrap flow.
+  - `memory/`: memory context, registry, and setup utilities.
+  - `storage/`: storage layout and storage manager (directory bootstrap, checks).
+  - `catalog/`: system catalog scaffolding for bootstrap.
+  - `constants/`: global constants and flags.
+- `tembodata/`: local configuration and (eventual) data root.
 
-## Subdirectory Explanations
+## Development
 
-- **Cargo.toml**:  
-  This file defines the Rust project’s metadata and dependencies.
-  It is essential for building and managing the Rust core of Tembo DB.
+- Build: `cargo build`
+- Test: `cargo test`
+- Run with logs: `RUST_LOG=info cargo run`
 
-- **src/**:  
-  Contains all the Rust source code for the core database engine. Each subdirectory inside `src/` focuses on a specific aspect of the database:
-    - **main.rs**: Starts the application and sets up necessary components.
-    - **lib.rs**: Exports core functionalities and modules.
-    - **config.rs**: Holds configuration logic and settings.
-    - **planner/**: Optimizes queries and creates efficient execution plans.
-    - **executor/**: Executes the planned queries, managing data retrieval and manipulation.
-    - **storage/**: Manages data persistence, including table storage, index management, and durability features like WAL.
-    - **buffer/**: Implements caching strategies to enhance I/O performance.
-    - **transaction/**: Controls transactions and concurrency (using techniques like MVCC).
-    - **access_control/**: Ensures security through user authentication and role-based access.
-    - **network/**: Handles client connections and implements the PostgreSQL wire protocol.
-    - **cli/**: Provides an interactive command-line interface for direct user interaction.
+Conventional `rustfmt`/`clippy` can be added; if you want, run:
 
-- **go_modules/**:  
-  Contains Golang modules that complement the Rust core. This separation helps maintain clear boundaries between the two language environments:
-    - **go.mod**: Manages dependencies for Go modules.
-    - **pkg/**: Includes reusable packages:
-        - **protocol/**: Implements parts of the protocol, allowing interoperability with PostgreSQL clients.
-        - **connection/**: Manages client connections in Go.
-        - **utils/**: General helper functions used across the Go codebase.
-    - **cmd/**: Houses Go-based command-line applications or microservices:
-        - **go_server/**: An example server component built in Go.
-        - **another_tool/**: Placeholder for any additional Go tools integrated into Tembo DB.
+```bash
+rustup component add clippy rustfmt
+cargo fmt --all
+cargo clippy --all-targets --all-features -- -D warnings
+```
 
-- **tests/**:  
-  Contains all test suites for the project, ensuring both Rust and Go components are reliable and well-functioning.
-    - **rust_tests/**: Focuses on unit and integration tests for Rust.
-    - **go_tests/**: Contains tests for the Golang modules.
+Source file header (SPDX style):
 
-## Getting Started
-
-1. **Clone the Repository:**
-   ```bash
-   git clone https://your-repo-url.git
-   cd tembo_db
-   ```
-
-2. **Build the Rust Components:**
-   ```bash
-   cargo build
-   ```
-
-3. **Build the Golang Modules:**
-   ```bash
-   cd go_modules
-   go build ./...
-   ```
-
-4. **Run Tests:**
-    - For Rust:
-      ```bash
-      cargo test
-      ```
-    - For Go:
-      ```bash
-      go test ./...
-      ```
+```text
+// Copyright 2026 Austin Oyugi
+// SPDX-License-Identifier: Apache-2.0
+```
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and submit pull requests for improvements, bug fixes, or new features.
+Issues, ideas, and PRs are welcome. Please include:
+
+- Clear problem statement or motivation.
+- Minimal reproduction (if a bug).
+- Tests where feasible and concise documentation for new behavior.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Licensed under the Apache License, Version 2.0. See `LICENSE` for terms and `NOTICE` for attribution.
 
 ---
 
-Tembo DB aims to combine robust performance with the strength and resilience symbolized by the elephant, providing a reliable, high-performance database solution.
-
-```
+TemboDB aims to explore database internals with a pragmatic, Rust‑first approach.

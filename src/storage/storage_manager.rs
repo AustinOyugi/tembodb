@@ -1,5 +1,5 @@
 use crate::config::base_configs::BaseConfig;
-use log::{debug, info, trace};
+use log::{trace};
 use std::path::Path;
 use std::{fs, io};
 use crate::constants::constants::BASE_CONFIGS;
@@ -26,12 +26,5 @@ pub fn initialize_storage_dirs() -> io::Result<()> {
         let full_path: String = format!("{base_directory}{path}");
         fs::create_dir_all(full_path)?;
     }
-    Ok(())
-}
-
-pub fn initialize_page_structures(base_config: &BaseConfig) -> io::Result<()> {
-    // get the best segment file names,
-    // if no segment - initialize page zero segment
-    // get the last segment
     Ok(())
 }

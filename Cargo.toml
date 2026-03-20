@@ -3,6 +3,8 @@ name = "tembodb"
 version = "0.0.1-SNAPSHOT"
 edition = "2021"
 authors = ["Austin Oyugi <austinoyugi@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
 
 [lib]
 crate-type = ["cdylib"]  # This makes sure Rust compiles it as a C-compatible dynamic library
@@ -10,4 +12,3 @@ crate-type = ["cdylib"]  # This makes sure Rust compiles it as a C-compatible dy
 log = "0.4"
 env_logger = "0.11"
 lazy_static = "1.5.0"
-
