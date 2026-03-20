@@ -1,6 +1,6 @@
 # TemboDB
 
-Experimental, PostgreSQL‑inspired database engine written in Rust. TemboDB currently does not support SQL; instead, it exposes low‑level data structures and functionality directly, avoiding the overhead of SQL parsing and translation.
+Experimental, PostgreSQL‑inspired database engine. TemboDB currently does not support SQL; instead, it exposes low‑level data structures and functionality directly, avoiding the overhead of SQL parsing and translation.
 
 Status: early prototype/WIP.
 
