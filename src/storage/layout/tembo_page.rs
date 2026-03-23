@@ -1,49 +1,49 @@
-/// A segment represents a collection of grouped pages
-/// Each segment contains the first page, which contains metadata about the segment
-/// The first page that contains metadata about the segment
-///  64000 bits  8000 bytes 8kb
-/// (4 + 4 + 2) = 10 bytes for fields
-/// In a 64 bits arch i.e. 64/8 = 8 bytes per cpu cycle
-/// We pad the first 2 fields 4 + 4 : so that accessing them fills the buffer
-/// The last field which is 2 bytes we pad 6 bytes
-/// Lastly we need to fill in the page till it gets to 8kb
-/// 8192 - 16 = 8176
+const PAGE_SIZE: usize = 8192;
+
 #[repr(C)]
 pub struct TemboPageZero {
-    // Total number of pages inside the segment
-    total_pages: u32,
-    // The next available page in the segment that can be re-used
-    next_free_page: u32,
+
+    // supposed to track the page serial version, e.g b"Tembo\0\0\0"
+    // more like the type of file
+    // passport
+    magic: [u8; 8],
+
+    // the file format version
+    // language, what processor would read the page
+    version: u16,
+
     // The total size a page should be
     page_size: u16,
-    _pad: [u8; 6],
-    reserved: [u8; 8176],
+
+    // Total number of pages inside the segment
+    total_pages: u32,
+
+    // the id of the first page
+    root_page: u32,
+
+    // Total size
+    // 8 + 2 + 2 + 4 + 4 =  20 bytes
+    // 8192 - 20  = 8172 bytes left
+    reserved: [u8; 8172],
 }
 
-impl TemboPageZero {
-    pub fn new() -> Self {
-        TemboPageZero {
-            total_pages: 1,
-            next_free_page: 1,
-            page_size: 8192,
-            _pad: [0; 6],
-            reserved: [0; 8176],
-        }
-    }
-}
-
-/// Total size
-/// 4 + 1 = 5
-/// padding required is 3
-/// Total is 8 bytes
 #[repr(C)]
 #[derive(Debug)]
 pub struct TemboPageHeader {
     // Unique identifier for the page
     id: u32,
-    // Stores the number of records stored in the page
-    record_count: u8,
-    _pad: [u8; 3],
+
+    // Stores the number of slots available in the page
+    slot_count: u16,
+
+    // Tells where the next slot should be allocated
+    free_start: u16,
+
+    // Tells where the record should be written at, from the end
+    free_end: u16,
+
+    // we are aligning in terms of 4 bytes u32
+    _pad: u16
 }
 
 /// Total size
@@ -60,19 +60,12 @@ pub struct LinePointer {
     _pad: [u8; 3],
 }
 
-/// Total size
-/// 8 + Vec<8 bytes>
-/// 8192 - 8 = 8184 after page header
 #[repr(C)]
 #[derive(Debug)]
 pub struct TemboPage {
-    // Store metadata about the page
-    page_header: TemboPageHeader,
-    // Line Pointer Array
-    line_pointers: Vec<LinePointer>,
-    // The actual store of data for the page
-    records: Vec<u8>,
+    data: [u8; PAGE_SIZE],
 }
+
 
 pub struct BufferPool {
     cache: Vec<[u8; 8192]>,
