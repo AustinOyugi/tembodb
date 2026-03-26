@@ -39,11 +39,7 @@ impl fmt::Display for ContextRegistry {
 pub fn get_from_context_registry(
     context_name: ContextRegistry,
 ) -> Option<Arc<Mutex<TemboMemoryContext>>> {
-    match MEMORY_CONTEXT_REGISTRY
-        .read()
-        .unwrap()
-        .get(&context_name)
-    {
+    match MEMORY_CONTEXT_REGISTRY.read().unwrap().get(&context_name) {
         None => {
             trace!("Context {:?} not found", context_name);
             None

@@ -13,7 +13,7 @@ pub struct RelAttribute {
     oid: u32,
     name: String,
     length: usize,
-    nullable: bool
+    nullable: bool,
 }
 
 /// A tembo relation definition represents a relation
@@ -39,7 +39,7 @@ pub struct TemboRelDef {
 }
 
 impl TemboRelDef {
-    pub fn bootstrap(context: Arc<Mutex<TemboMemoryContext>>) -> Arc<Mutex<TemboRelDef>>  {
+    pub fn bootstrap(context: Arc<Mutex<TemboMemoryContext>>) -> Arc<Mutex<TemboRelDef>> {
         let tembo_class = Arc::new(Mutex::new(TemboRelDef {
             obj_id: 1,
             rel_name: "".to_string(),
@@ -48,7 +48,7 @@ impl TemboRelDef {
             rel_pages: 0,
             memory_context: context.clone(),
         }));
-        
+
         tembo_class
     }
 }

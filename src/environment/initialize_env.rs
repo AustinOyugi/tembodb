@@ -1,11 +1,11 @@
+use crate::catalog::tembo_bootstrap::initialize_rel_descriptors;
+use crate::constants::constants::BOOTSTRAP_MODE_ACTIVE;
 use crate::memory::context::TemboMemoryContext;
 use crate::memory::context_registry::{get_from_context_registry, switch_to, ContextRegistry};
 use crate::storage::storage_manager::{initialize_storage_dirs, is_storage_ready};
 use log::{error, trace};
 use std::io::Error;
 use std::{io, process};
-use crate::catalog::tembo_bootstrap::initialize_rel_descriptors;
-use crate::constants::constants::BOOTSTRAP_MODE_ACTIVE;
 
 fn get_env_ready_func_registry() -> Vec<fn() -> bool> {
     vec![is_storage_ready]
@@ -52,11 +52,10 @@ pub fn initialize_environment() -> io::Result<()> {
             );
 
             switch_to(bootstrapped_context, || {
-                
                 if let Ok(mut boot_active) = BOOTSTRAP_MODE_ACTIVE.write() {
                     *boot_active = true
                 };
-                
+
                 for init_fn in get_bootstrap_env_func_registry().into_iter() {
                     match init_fn() {
                         Ok(_) => {

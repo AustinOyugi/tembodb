@@ -1,17 +1,17 @@
+mod catalog;
 mod config;
+mod constants;
 mod environment;
 mod memory;
 mod storage;
-mod catalog;
-mod constants;
 
-use std::process;
+use crate::constants::constants::BASE_CONFIGS;
 use crate::memory::setup::init_memory_base_context;
 use config::base_configs::BaseConfig;
 use environment::initialize_env::initialize_environment;
 use environment::initialize_env::validate_env_ready;
 use log::{error, info};
-use crate::constants::constants::BASE_CONFIGS;
+use std::process;
 
 fn main() -> std::io::Result<()> {
     // Init Db
@@ -32,7 +32,7 @@ fn main() -> std::io::Result<()> {
     // System catalogs (tembo_class)
 
     env_logger::init();
-    
+
     info!("##########   Stating Tembo DB   ##########");
 
     match BASE_CONFIGS.set(BaseConfig::load()) {
@@ -40,7 +40,7 @@ fn main() -> std::io::Result<()> {
             info!("Base configurations loaded successfully")
         }
         Err(err) => {
-            error!("Error loading configs {}",err);
+            error!("Error loading configs {}", err);
             process::exit(1)
         }
     }

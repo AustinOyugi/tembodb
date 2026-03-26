@@ -1,13 +1,13 @@
 use super::config_manager;
 use log::error;
-use std::{fmt, process};
 use std::fmt::Formatter;
+use std::{fmt, process};
 
 #[derive(Debug)]
 pub struct BaseConfig {
     pub file_path: String,
     pub first_bootstrap_oid: u32,
-    pub last_bootstrap_oid: u32
+    pub last_bootstrap_oid: u32,
 }
 
 impl fmt::Display for BaseConfig {
