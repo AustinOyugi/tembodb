@@ -1,8 +1,8 @@
 use crate::config::base_configs::BaseConfig;
-use log::{trace};
+use crate::constants::constants::BASE_CONFIGS;
+use log::trace;
 use std::path::Path;
 use std::{fs, io};
-use crate::constants::constants::BASE_CONFIGS;
 
 fn get_base_dirs() -> Vec<&'static str> {
     vec!["/storage", "/base", "/global"]

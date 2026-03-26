@@ -12,3 +12,4 @@ crate-type = ["cdylib"]  # This makes sure Rust compiles it as a C-compatible dy
 log = "0.4"
 env_logger = "0.11"
 lazy_static = "1.5.0"
+bytemuck = { version = "1.25.0", features = ["derive", "min_const_generics"] }
